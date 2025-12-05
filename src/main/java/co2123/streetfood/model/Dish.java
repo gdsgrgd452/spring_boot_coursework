@@ -16,7 +16,7 @@ public class Dish {
     @ManyToOne
     private Vendor vendor;
 
-    @OneToMany
+    @OneToMany(mappedBy = "dish")
     private List<Review> reviews;
 
     @ManyToMany(mappedBy = "dishes")

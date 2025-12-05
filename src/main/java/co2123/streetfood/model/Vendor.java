@@ -18,12 +18,10 @@ public class Vendor {
     @ManyToOne
     private VendorProfile profile;
 
-    @OneToMany
-    @JoinColumn(name = "vendor_photos")
+    @OneToMany(mappedBy = "vendor")
     private List<Photo> photos;
 
-    @OneToMany
-    @JoinColumn(name = "vendor_awards")
+    @OneToMany(mappedBy = "vendor")
     private List<Award> awards;
 
     public int getId() {
