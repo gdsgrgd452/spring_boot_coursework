@@ -14,7 +14,6 @@ public class Dish {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     @OneToMany

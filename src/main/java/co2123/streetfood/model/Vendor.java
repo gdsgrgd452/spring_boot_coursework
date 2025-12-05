@@ -12,19 +12,18 @@ public class Vendor {
     private String location;
     private String cuisineType;
 
-    @OneToMany
-    @JoinTable(name = "vendor_dishes")
+    @OneToMany(mappedBy = "dishes")
     private List<Dish> dishes;
 
     @ManyToOne
     private VendorProfile profile;
 
     @OneToMany
-    @JoinTable(name = "vendor_photos")
+    @JoinColumn(name = "vendor_photos")
     private List<Photo> photos;
 
     @OneToMany
-    @JoinTable(name = "vendor_awards")
+    @JoinColumn(name = "vendor_awards")
     private List<Award> awards;
 
     public int getId() {
