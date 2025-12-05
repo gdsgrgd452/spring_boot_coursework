@@ -15,7 +15,7 @@ public class Vendor {
     @OneToMany(mappedBy = "vendor")
     private List<Dish> dishes;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VendorProfile profile;
 
     @OneToMany(mappedBy = "vendor")

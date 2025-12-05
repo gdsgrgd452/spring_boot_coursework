@@ -73,10 +73,10 @@ public class AddEditController {
 
         if(foundVendor.getProfile() == null){
             foundVendor.setProfile(profile);
-            StreetfoodApplication.vendorprofileList.add(profile);
+            //StreetfoodApplication.vendorprofileList.add(profile);
         } else {
-            StreetfoodApplication.vendorprofileList.remove(foundVendor.getProfile());
-            StreetfoodApplication.vendorprofileList.add(profile);
+            //StreetfoodApplication.vendorprofileList.remove(foundVendor.getProfile());
+            //StreetfoodApplication.vendorprofileList.add(profile);
             foundVendor.getProfile().setBio(profile.getBio());
             foundVendor.getProfile().setSocialMediaHandle(profile.getSocialMediaHandle());
             foundVendor.getProfile().setWebsite(profile.getWebsite());

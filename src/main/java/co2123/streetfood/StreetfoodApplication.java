@@ -21,7 +21,7 @@ public class StreetfoodApplication implements CommandLineRunner {
     public static List<Review> reviewList = new ArrayList<>();
     public static List<Tag> tagList = new ArrayList<>();
     public static List<Vendor> vendorList = new ArrayList<>();
-    public static List<VendorProfile> vendorprofileList = new ArrayList<>();
+    //public static List<VendorProfile> vendorprofileList = new ArrayList<>();
 
     public static void main(String[] args) {
         SpringApplication.run(StreetfoodApplication.class, args);
@@ -34,7 +34,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         profile.setBio("Serving the best street food since 2010.");
         profile.setSocialMediaHandle("@tastyvendorfakewebsite");
         profile.setWebsite("http://tastyvendor.fakewebsite.com");
-        vendorprofileList.add(profile);
+        //vendorprofileList.add(profile);
 
         //Creating 1 Vendor
         Vendor vendor = new Vendor();
@@ -128,7 +128,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         profile2.setBio("Family-run, celebrating local and global tastes.");
         profile2.setSocialMediaHandle("@nicefoodfakewebsite");
         profile2.setWebsite("http://nicefood.fakewebsite.com");
-        vendorprofileList.add(profile2);
+        //vendorprofileList.add(profile2);
 
         Vendor vendor2 = new Vendor();
         vendor2.setName("Nice Food");
@@ -236,7 +236,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         profile3.setBio("Delicate French desserts, crafted with passion and tradition.");
         profile3.setSocialMediaHandle("@bonsdessertsfakewebsite");
         profile3.setWebsite("http://bonsdesserts.fakewebsite.com");
-        vendorprofileList.add(profile3);
+        //vendorprofileList.add(profile3);
 
         Vendor vendor3 = new Vendor();
         vendor3.setName("Bons Desserts");
