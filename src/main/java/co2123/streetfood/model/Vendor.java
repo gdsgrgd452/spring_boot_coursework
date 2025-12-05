@@ -12,7 +12,7 @@ public class Vendor {
     private String location;
     private String cuisineType;
 
-    @OneToMany(mappedBy = "dishes")
+    @OneToMany(mappedBy = "vendor")
     private List<Dish> dishes;
 
     @ManyToOne
