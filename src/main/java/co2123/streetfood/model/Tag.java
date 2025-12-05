@@ -1,15 +1,12 @@
 package co2123.streetfood.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 public class Tag {
-    @Id
+    @Id @GeneratedValue
     private int id;
     private String name;
 

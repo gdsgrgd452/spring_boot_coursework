@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 public class Dish {
-    @Id
+    @Id @GeneratedValue
     private int id;
     private String name;
     private String description;

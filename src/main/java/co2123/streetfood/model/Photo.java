@@ -1,12 +1,13 @@
 package co2123.streetfood.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Photo {
-    @Id
+    @Id @GeneratedValue
     private int id;
     private String url;
     private String description;
