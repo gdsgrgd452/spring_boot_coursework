@@ -2,7 +2,9 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.Vendor;
+import co2123.streetfood.repository.VendorRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
+    @Autowired
+    private VendorRepository vendorRepo;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(new VendorValidator());
@@ -22,7 +27,7 @@ public class AdminController {
 
     @RequestMapping("/admin")
     public String showAdminPage(Model model) {
-        model.addAttribute("vendors", StreetfoodApplication.vendorList);
+        model.addAttribute("vendors", vendorRepo.findAll());
         return "admin";
     }
 
@@ -39,20 +44,15 @@ public class AdminController {
         if (result.hasErrors()) {
             return "forms/newVendor";
         }
-        System.out.println(StreetfoodApplication.vendorList.size()+1);
-        StreetfoodApplication.vendorList.add(vendor);
+        //System.out.println(StreetfoodApplication.vendorList.size()+1); ?????
+        vendorRepo.save(vendor);
         return "redirect:/admin";
     }
 
     @RequestMapping("/vendor")
     public String listVendor(@RequestParam Integer id, Model model) {
 
-        Vendor foundVendor = null;
-        for(Vendor a :  StreetfoodApplication.vendorList) {
-            if(a.getId() == id) {
-                foundVendor = a;
-            }
-        }
+        Vendor foundVendor = vendorRepo.findById(id).get();;
 
         if(foundVendor == null) {
             return "redirect:/admin";

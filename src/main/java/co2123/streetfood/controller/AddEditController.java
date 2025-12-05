@@ -2,6 +2,8 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,19 +17,12 @@ import java.util.List;
 @Controller
 public class AddEditController {
 
-    public static Vendor findVendor(int id){
-        Vendor foundVendor = null;
-        for(Vendor a :  StreetfoodApplication.vendorList) {
-            if(a.getId() == id) {
-                foundVendor = a;
-            }
-        }
-        return foundVendor;
-    }
+    @Autowired
+    private VendorRepository vendorRepo;
 
     @RequestMapping("editVendor")
     public String editVendorForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
 
         if(foundVendor == null) {
             return "redirect:/admin";
@@ -39,7 +34,7 @@ public class AddEditController {
 
     @RequestMapping("editedVendor")
     public String submittedEditForm(@RequestParam Integer id, @ModelAttribute Vendor vendor, Model model) {
-        Vendor foundVendor = findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
 
         foundVendor.setName(vendor.getName());
         foundVendor.setLocation(vendor.getLocation());
@@ -53,7 +48,7 @@ public class AddEditController {
 
     @RequestMapping("editVendorProfile")
     public String editVendorProfileForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -66,7 +61,7 @@ public class AddEditController {
 
     @RequestMapping("editedVendorProfile")
     public String submittedProfileEditForm(@RequestParam Integer id, @ModelAttribute VendorProfile profile, Model model) {
-        Vendor foundVendor = findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -89,7 +84,7 @@ public class AddEditController {
 
     @RequestMapping("newDish")
     public String newDishForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -102,7 +97,7 @@ public class AddEditController {
 
     @RequestMapping("addDish")
     public String addDish(@RequestParam Integer vendorid, @RequestParam List<Integer> tagIds, @ModelAttribute Dish dish, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -130,7 +125,7 @@ public class AddEditController {
 
     @RequestMapping("newReview")
     public String newReview(@RequestParam Integer vendorid, @RequestParam Integer dishid, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -143,7 +138,7 @@ public class AddEditController {
 
     @RequestMapping("addReview")
     public String addReview(@RequestParam Integer vendorid, @RequestParam Integer dishid, @ModelAttribute Review review, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -175,7 +170,7 @@ public class AddEditController {
 
     @RequestMapping("newPhoto")
     public String newPhoto(@RequestParam Integer vendorid, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -187,7 +182,7 @@ public class AddEditController {
 
     @RequestMapping("addPhoto")
     public String addPhoto(@RequestParam Integer vendorid, @ModelAttribute Photo photo, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -203,7 +198,7 @@ public class AddEditController {
 
     @RequestMapping("newAward")
     public String newAward(@RequestParam Integer vendorid, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -215,7 +210,7 @@ public class AddEditController {
 
     @RequestMapping("addAward")
     public String addAward(@RequestParam Integer vendorid, @ModelAttribute Award award, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -233,7 +228,7 @@ public class AddEditController {
 
     @RequestMapping("editDish")
     public String editDishForm(@RequestParam Integer vendorid, @RequestParam Integer dishid, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -257,7 +252,7 @@ public class AddEditController {
     }
     @RequestMapping("editedDish")
     public String submittedEditDishForm(@RequestParam Integer vendorid, @RequestParam Integer dishid, @RequestParam(required = false) List<Integer> tagIds, @ModelAttribute Dish dish, Model model) {
-        Vendor foundVendor = findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -296,7 +291,7 @@ public class AddEditController {
 
     @RequestMapping("editReview")
     public String editReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, Model model) {
-        Vendor foundVendor = findVendor(vendorId);
+        Vendor foundVendor = vendorRepo.findById(vendorId).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -334,7 +329,7 @@ public class AddEditController {
         foundReview.setComment(review.getComment());
         foundReview.setRating(review.getRating());
 
-        Vendor foundVendor = findVendor(vendorId);
+        Vendor foundVendor = vendorRepo.findById(vendorId).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -376,7 +371,8 @@ public class AddEditController {
         foundPhoto.setDescription(photo.getDescription());
         foundPhoto.setUrl(photo.getUrl());
 
-        Vendor foundVendor = findVendor(foundPhoto.getVendor().getId());
+
+        Vendor foundVendor = vendorRepo.findById(foundPhoto.getVendor().getId()).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -418,7 +414,7 @@ public class AddEditController {
         foundAward.setTitle(award.getTitle());
         foundAward.setYear(award.getYear());
 
-        Vendor foundVendor = findVendor(foundAward.getVendor().getId());
+        Vendor foundVendor = vendorRepo.findById(foundAward.getVendor().getId()).get();
         if (foundVendor == null) {
             return "redirect:/admin";
         }

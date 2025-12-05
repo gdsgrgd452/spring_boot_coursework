@@ -2,6 +2,8 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,19 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class DeleteController {
 
+    @Autowired
+    private VendorRepository vendorRepo;
 
     @RequestMapping("/deleteVendor")
     public String deleteVendor(@RequestParam("id") Integer id) {
-        Vendor foundVendor = AddEditController.findVendor(id);
+        Vendor foundVendor = vendorRepo.findById(id).get();
         if(foundVendor != null){
-            StreetfoodApplication.vendorList.remove(foundVendor);
+            vendorRepo.delete(foundVendor);
         }
         return "redirect:/admin";
     }
 
     @RequestMapping("/deleteDish")
     public String deleteDish(@RequestParam Integer vendorid, @RequestParam Integer dishid) {
-        Vendor foundVendor = AddEditController.findVendor(vendorid);
+        Vendor foundVendor = vendorRepo.findById(vendorid).get();
         if (foundVendor==null) {
             return "redirect:/admin";
         }
@@ -56,7 +60,7 @@ public class DeleteController {
             StreetfoodApplication.reviewList.remove(foundReview);
         }
 
-        Vendor foundVendor = AddEditController.findVendor(vendorId);
+        Vendor foundVendor = vendorRepo.findById(vendorId).get();
         if(foundVendor == null){
             return "redirect:/admin";
         }
@@ -85,7 +89,7 @@ public class DeleteController {
             return "redirect:/admin";
         }
 
-        Vendor foundVendor = AddEditController.findVendor(foundPhoto.getVendor().getId());
+        Vendor foundVendor = vendorRepo.findById(foundPhoto.getVendor().getId()).get();
         if(foundVendor == null){
             return "redirect:/admin";
         }
@@ -107,7 +111,7 @@ public class DeleteController {
             return "redirect:/admin";
         }
 
-        Vendor foundVendor = AddEditController.findVendor(foundAward.getVendor().getId());
+        Vendor foundVendor = vendorRepo.findById(foundAward.getVendor().getId()).get();
         if(foundVendor == null){
             return "redirect:/admin";
         }

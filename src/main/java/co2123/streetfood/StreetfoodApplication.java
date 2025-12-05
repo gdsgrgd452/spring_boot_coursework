@@ -1,6 +1,8 @@
 package co2123.streetfood;
 
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +22,10 @@ public class StreetfoodApplication implements CommandLineRunner {
     public static List<Photo> photoList = new ArrayList<>();
     public static List<Review> reviewList = new ArrayList<>();
     public static List<Tag> tagList = new ArrayList<>();
-    public static List<Vendor> vendorList = new ArrayList<>();
+    //public static List<Vendor> vendorList = new ArrayList<>();
+    @Autowired
+    public VendorRepository vendorRepo;
+
     //public static List<VendorProfile> vendorprofileList = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -75,7 +80,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         vendor.setDishes(new ArrayList<>());
         vendor.getDishes().add(noodles);
         vendor.getDishes().add(dumplings);
-        vendorList.add(vendor);
+        vendor = vendorRepo.save(vendor);
 
         //Creating 2 reviews
         Review review1 = new Review();
@@ -178,7 +183,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         vendor2.getDishes().add(samosa);
         vendor2.getDishes().add(porkPie);
         vendor2.getDishes().add(toastie);
-        vendorList.add(vendor2);
+        vendor2 = vendorRepo.save(vendor2);
 
         Review review3 = new Review();
         review3.setReviewerName("Tom");
@@ -288,7 +293,7 @@ public class StreetfoodApplication implements CommandLineRunner {
         vendor3.getDishes().add(tarteCitron);
         vendor3.getDishes().add(madeleine);
 
-        vendorList.add(vendor3);
+        vendor3 = vendorRepo.save(vendor3);
 
         Review review6 = new Review();
         review6.setReviewerName("Lucie");

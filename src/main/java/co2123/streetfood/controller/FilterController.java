@@ -3,6 +3,8 @@ package co2123.streetfood.controller;
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.Dish;
 import co2123.streetfood.model.Vendor;
+import co2123.streetfood.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +16,16 @@ import java.util.List;
 @Controller
 public class FilterController {
 
+    @Autowired
+    private VendorRepository vendorRepo;
+
     public List<Vendor> method1(String search){
         List<Vendor> vendors = new ArrayList<Vendor>();
-        for(Vendor a : StreetfoodApplication.vendorList){
-            if(a.getName().contains(search)){
-                vendors.add(a);
-            }
-        }
+//        for(Vendor a : StreetfoodApplication.vendorList){
+//            if(a.getName().contains(search)){
+//                vendors.add(a);
+//            }
+//        }
         return vendors;
     }
 
@@ -28,7 +33,7 @@ public class FilterController {
     public String search1(@RequestParam String vendor, Model model) {
         List<Vendor> list = method1(vendor);
         if(list.isEmpty()){
-            model.addAttribute("vendors", StreetfoodApplication.vendorList);
+            model.addAttribute("vendors", vendorRepo.findAll());
         } else {
             model.addAttribute("vendors", list);
         }
@@ -37,7 +42,7 @@ public class FilterController {
 
     public List<Vendor> method2(String search){
         List<Vendor> vendors = new ArrayList<>();
-        for(Vendor a : StreetfoodApplication.vendorList){
+        for(Vendor a : vendorRepo.findAll()){
             for(Dish d : a.getDishes()){
                 if(d.getName().contains(search) && !vendors.contains(a)){
                     vendors.add(a);
@@ -52,7 +57,7 @@ public class FilterController {
     public String search2(@RequestParam String dish, Model model) {
         List<Vendor> list = method2(dish);
         if(list.isEmpty()){
-            model.addAttribute("vendors", StreetfoodApplication.vendorList);
+            model.addAttribute("vendors", vendorRepo.findAll());
         } else {
             model.addAttribute("vendors", list);
         }
