@@ -31,7 +31,6 @@ public class StreetfoodApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         //Creating 1 VendorProfile
         VendorProfile profile = new VendorProfile();
-        profile.setId(1);
         profile.setBio("Serving the best street food since 2010.");
         profile.setSocialMediaHandle("@tastyvendorfakewebsite");
         profile.setWebsite("http://tastyvendor.fakewebsite.com");
@@ -39,7 +38,6 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating 1 Vendor
         Vendor vendor = new Vendor();
-        vendor.setId(1);
         vendor.setName("Tasty Vendor");
         vendor.setLocation("University Road");
         vendor.setCuisineType("Fusion");
@@ -47,17 +45,14 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating 2 Tags
         Tag spicy = new Tag();
-        spicy.setId(1);
         spicy.setName("Spicy Challenge");
         Tag hiddenGem = new Tag();
-        hiddenGem.setId(2);
         hiddenGem.setName("Hidden Gem");
         tagList.add(spicy);
         tagList.add(hiddenGem);
 
         //Creating 2 Dishes then saving the vendor with dishes
         Dish noodles = new Dish();
-        noodles.setId(1);
         noodles.setName("Fire Noodles");
         noodles.setDescription("Extremely spicy noodles for the brave.");
         noodles.setSpiceLevel(5);
@@ -68,7 +63,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         dishList.add(noodles);
 
         Dish dumplings = new Dish();
-        dumplings.setId(2);
         dumplings.setName("Secret Dumplings");
         dumplings.setDescription("Delicate dumplings with a secret filling.");
         dumplings.setSpiceLevel(2);
@@ -85,7 +79,6 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating 2 reviews
         Review review1 = new Review();
-        review1.setId(1);
         review1.setReviewerName("Sofia");
         review1.setRating(5);
         review1.setComment("So spicy, so good!");
@@ -93,7 +86,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         review1.setDish(noodles);
 
         Review review2 = new Review();
-        review2.setId(2);
         review2.setReviewerName("Jamie");
         review2.setRating(4);
         review2.setComment("Loved the dumplings!");
@@ -105,13 +97,11 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating 2 Photos
         Photo photo1 = new Photo();
-        photo1.setId(1);
         photo1.setUrl("noodles.jpg");
         photo1.setDescription("A bowl of fire noodles.");
         photo1.setVendor(vendor);
 
         Photo photo2 = new Photo();
-        photo2.setId(2);
         photo2.setUrl("dumplings.jpg");
         photo2.setDescription("Steaming hot dumplings.");
         photo2.setVendor(vendor);
@@ -121,13 +111,11 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating 2 Awards
         Award award1 = new Award();
-        award1.setId(1);
         award1.setTitle("Best Street Food 2024");
         award1.setYear(2024);
         award1.setVendor(vendor);
 
         Award award2 = new Award();
-        award2.setId(2);
         award2.setTitle("Customer Favorite");
         award2.setYear(2023);
         award2.setVendor(vendor);
@@ -137,30 +125,25 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Creating another vendor to populate the database
         VendorProfile profile2 = new VendorProfile();
-        profile2.setId(2);
         profile2.setBio("Family-run, celebrating local and global tastes.");
         profile2.setSocialMediaHandle("@nicefoodfakewebsite");
         profile2.setWebsite("http://nicefood.fakewebsite.com");
         vendorprofileList.add(profile2);
 
         Vendor vendor2 = new Vendor();
-        vendor2.setId(2);
         vendor2.setName("Nice Food");
         vendor2.setLocation("Leicester Market");
         vendor2.setCuisineType("Fusion");
         vendor2.setProfile(profile2);
 
         Tag localLegend = new Tag();
-        localLegend.setId(3);
         localLegend.setName("Local Legend");
         Tag vegetarian = new Tag();
-        vegetarian.setId(4);
         vegetarian.setName("Vegetarian");
         tagList.add(localLegend);
         tagList.add(vegetarian);
 
         Dish samosa = new Dish();
-        samosa.setId(3);
         samosa.setName("Spicy Samosa Chaat");
         samosa.setDescription("Crisp samosas topped with chickpeas, yogurt, chutneys, and fresh coriander.");
         samosa.setSpiceLevel(3);
@@ -172,7 +155,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         dishList.add(samosa);
 
         Dish porkPie = new Dish();
-        porkPie.setId(4);
         porkPie.setName("Melton Mowbray Pork Pie Bites");
         porkPie.setDescription("Mini versions of the classic pork pie, served warm with tangy chutney.");
         porkPie.setSpiceLevel(1);
@@ -183,7 +165,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         dishList.add(porkPie);
 
         Dish toastie = new Dish();
-        toastie.setId(5);
         toastie.setName("Red Leicester Cheese Toastie");
         toastie.setDescription("Thick slices of Red Leicester cheese melted in artisan bread, served with a side of chutney.");
         toastie.setSpiceLevel(1);
@@ -200,7 +181,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         vendorList.add(vendor2);
 
         Review review3 = new Review();
-        review3.setId(3);
         review3.setReviewerName("Tom");
         review3.setRating(5);
         review3.setComment("Tangy and delicious!");
@@ -208,7 +188,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         review3.setDish(samosa);
 
         Review review4 = new Review();
-        review4.setId(4);
         review4.setReviewerName("Ayesha");
         review4.setRating(4);
         review4.setComment("Perfect snack for a market stroll.");
@@ -216,7 +195,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         review4.setDish(porkPie);
 
         Review review5 = new Review();
-        review5.setId(5);
         review5.setReviewerName("Pierre");
         review5.setRating(5);
         review5.setComment("Loved it! Will be back!");
@@ -228,19 +206,16 @@ public class StreetfoodApplication implements CommandLineRunner {
         reviewList.add(review5);
 
         Photo photo3 = new Photo();
-        photo3.setId(3);
         photo3.setUrl("samosa.JPG");
         photo3.setDescription("Samosa chaat with toppings.");
         photo3.setVendor(vendor2);
 
         Photo photo4 = new Photo();
-        photo4.setId(4);
         photo4.setUrl("pies.jpg");
         photo4.setDescription("Mini Melton Mowbray pork pies.");
         photo4.setVendor(vendor2);
 
         Photo photo5 = new Photo();
-        photo5.setId(5);
         photo5.setUrl("toastie.jpg");
         photo5.setDescription("Red Leicester cheese toastie");
         photo5.setVendor(vendor2);
@@ -250,7 +225,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         photoList.add(photo5);
 
         Award award3 = new Award();
-        award3.setId(3);
         award3.setTitle("Leicester Market Favourite");
         award3.setYear(2025);
         award3.setVendor(vendor2);
@@ -259,30 +233,25 @@ public class StreetfoodApplication implements CommandLineRunner {
 
         //Another vendor
         VendorProfile profile3 = new VendorProfile();
-        profile3.setId(3);
         profile3.setBio("Delicate French desserts, crafted with passion and tradition.");
         profile3.setSocialMediaHandle("@bonsdessertsfakewebsite");
         profile3.setWebsite("http://bonsdesserts.fakewebsite.com");
         vendorprofileList.add(profile3);
 
         Vendor vendor3 = new Vendor();
-        vendor3.setId(3);
         vendor3.setName("Bons Desserts");
         vendor3.setLocation("New Walk");
         vendor3.setCuisineType("French Desserts");
         vendor3.setProfile(profile3);
 
         Tag sweet = new Tag();
-        sweet.setId(5);
         sweet.setName("Sweet");
         Tag classic = new Tag();
-        classic.setId(6);
         classic.setName("Classic");
         tagList.add(classic);
         tagList.add(sweet);
 
         Dish eclair = new Dish();
-        eclair.setId(6);
         eclair.setName("Éclair au Chocolat");
         eclair.setDescription("Choux pastry filled with rich chocolate cream and topped with chocolate glaze.");
         eclair.setSpiceLevel(0);
@@ -293,7 +262,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         eclair.setVendor(vendor3);
 
         Dish tarteCitron = new Dish();
-        tarteCitron.setId(7);
         tarteCitron.setName("Tarte au Citron");
         tarteCitron.setDescription("Tangy lemon tart with a buttery pastry base and toasted meringue.");
         tarteCitron.setSpiceLevel(0);
@@ -303,7 +271,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         tarteCitron.setVendor(vendor3);
 
         Dish madeleine = new Dish();
-        madeleine.setId(8);
         madeleine.setName("Madeleine");
         madeleine.setDescription("Soft, shell-shaped sponge cakes with a hint of lemon.");
         madeleine.setSpiceLevel(0);
@@ -324,7 +291,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         vendorList.add(vendor3);
 
         Review review6 = new Review();
-        review6.setId(6);
         review6.setReviewerName("Lucie");
         review6.setRating(5);
         review6.setComment("The éclair was delicious!");
@@ -332,7 +298,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         review6.setDish(eclair);
 
         Review review7 = new Review();
-        review7.setId(7);
         review7.setReviewerName("Priya");
         review7.setRating(4);
         review7.setComment("Loved the tart, so zesty and fresh.");
@@ -340,7 +305,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         review7.setDish(tarteCitron);
 
         Review review8 = new Review();
-        review8.setId(8);
         review8.setReviewerName("Harriet");
         review8.setRating(3);
         review8.setComment("It was okay.");
@@ -352,13 +316,11 @@ public class StreetfoodApplication implements CommandLineRunner {
         reviewList.add(review8);
 
         Photo photo6 = new Photo();
-        photo6.setId(6);
         photo6.setUrl("eclair.jpg");
         photo6.setDescription("Chocolate éclair with glossy glaze.");
         photo6.setVendor(vendor3);
 
         Photo photo7 = new Photo();
-        photo7.setId(7);
         photo7.setUrl("tarte.jpg");
         photo7.setDescription("Lemon tart with toasted meringue.");
         photo7.setVendor(vendor3);
@@ -367,7 +329,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         photoList.add(photo7);
 
         Award award4 = new Award();
-        award4.setId(4);
         award4.setTitle("Best Dessert Stall");
         award4.setYear(2025);
         award4.setVendor(vendor3);

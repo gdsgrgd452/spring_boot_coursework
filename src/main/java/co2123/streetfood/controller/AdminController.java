@@ -40,7 +40,6 @@ public class AdminController {
             return "forms/newVendor";
         }
         System.out.println(StreetfoodApplication.vendorList.size()+1);
-        vendor.setId(StreetfoodApplication.vendorList.size());
         StreetfoodApplication.vendorList.add(vendor);
         return "redirect:/admin";
     }

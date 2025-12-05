@@ -72,7 +72,6 @@ public class AddEditController {
         }
 
         if(foundVendor.getProfile() == null){
-            profile.setId(StreetfoodApplication.vendorprofileList.size()+1);
             foundVendor.setProfile(profile);
             StreetfoodApplication.vendorprofileList.add(profile);
         } else {
@@ -119,7 +118,6 @@ public class AddEditController {
 
         dish.setReviews(new ArrayList<>());
         dish.setVendor(foundVendor);
-        dish.setId(StreetfoodApplication.dishList.size()+1);
         StreetfoodApplication.dishList.add(dish);
 
         foundVendor.getDishes().add(dish);
@@ -164,7 +162,6 @@ public class AddEditController {
 
         review.setReviewDate(LocalDateTime.now());
         review.setDish(foundDish);
-        review.setId(StreetfoodApplication.reviewList.size()+1);
         StreetfoodApplication.reviewList.add(review);
 
         if(foundDish.getReviews().isEmpty()){
@@ -196,7 +193,6 @@ public class AddEditController {
         }
 
         photo.setVendor(foundVendor);
-        photo.setId(StreetfoodApplication.photoList.size()+1);
         StreetfoodApplication.photoList.add(photo);
 
         foundVendor.getPhotos().add(photo);
@@ -225,7 +221,6 @@ public class AddEditController {
         }
 
         award.setVendor(foundVendor);
-        award.setId(StreetfoodApplication.awardList.size()+1);
         StreetfoodApplication.awardList.add(award);
 
         foundVendor.getAwards().add(award);
