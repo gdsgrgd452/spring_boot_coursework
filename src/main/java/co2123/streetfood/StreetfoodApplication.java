@@ -78,7 +78,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         noodles.setTags(new ArrayList<>());
         noodles.getTags().add(spicy);
         noodles.setVendor(vendor);
-        dishList.add(noodles);
 
         Dish dumplings = new Dish();
         dumplings.setName("Secret Dumplings");
@@ -88,7 +87,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         dumplings.setTags(new ArrayList<>());
         dumplings.getTags().add(hiddenGem);
         dumplings.setVendor(vendor);
-        dishList.add(dumplings);
 
         vendor.setDishes(new ArrayList<>());
         vendor.getDishes().add(noodles);
@@ -170,7 +168,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         samosa.getTags().add(spicy);
         samosa.getTags().add(vegetarian);
         samosa.setVendor(vendor2);
-        dishList.add(samosa);
 
         Dish porkPie = new Dish();
         porkPie.setName("Melton Mowbray Pork Pie Bites");
@@ -180,7 +177,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         porkPie.setTags(new ArrayList<>());
         porkPie.getTags().add(localLegend);
         porkPie.setVendor(vendor2);
-        dishList.add(porkPie);
 
         Dish toastie = new Dish();
         toastie.setName("Red Leicester Cheese Toastie");
@@ -190,7 +186,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         toastie.setTags(new ArrayList<>());
         toastie.getTags().add(vegetarian);
         toastie.setVendor(vendor2);
-        dishList.add(toastie);
 
         vendor2.setDishes(new ArrayList<>());
         vendor2.getDishes().add(samosa);
@@ -297,9 +292,6 @@ public class StreetfoodApplication implements CommandLineRunner {
         madeleine.getTags().add(classic);
         madeleine.setVendor(vendor3);
 
-        dishList.add(tarteCitron);
-        dishList.add(madeleine);
-        dishList.add(eclair);
 
         vendor3.setDishes(new ArrayList<>());
         vendor3.getDishes().add(eclair);

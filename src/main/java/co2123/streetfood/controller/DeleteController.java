@@ -51,7 +51,7 @@ public class DeleteController {
         }
 
         foundVendor.getDishes().remove(foundDish);
-        StreetfoodApplication.dishList.remove(foundDish);
+        foundVendor = vendorRepo.save(foundVendor);
 
         return "redirect:/vendor?id=" + vendorid;
     }

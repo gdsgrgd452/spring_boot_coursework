@@ -125,9 +125,8 @@ public class AddEditController {
 
         dish.setReviews(new ArrayList<>());
         dish.setVendor(foundVendor);
-        StreetfoodApplication.dishList.add(dish);
-
         foundVendor.getDishes().add(dish);
+        vendorRepo.save(foundVendor);
 
         model.addAttribute("vendor", foundVendor);
         return "redirect:/vendor?id=" + vendorid;
