@@ -3,6 +3,7 @@ package co2123.streetfood;
 import co2123.streetfood.model.*;
 import co2123.streetfood.repository.AwardRepository;
 import co2123.streetfood.repository.PhotoRepository;
+import co2123.streetfood.repository.TagRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -29,6 +30,9 @@ public class StreetfoodApplication implements CommandLineRunner {
     //public static List<Photo> photoList = new ArrayList<>();
 
     public static List<Review> reviewList = new ArrayList<>();
+
+    @Autowired
+    public TagRepository tagRepo;
     public static List<Tag> tagList = new ArrayList<>();
 
     @Autowired
@@ -62,8 +66,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         spicy.setName("Spicy Challenge");
         Tag hiddenGem = new Tag();
         hiddenGem.setName("Hidden Gem");
-        tagList.add(spicy);
-        tagList.add(hiddenGem);
+        spicy = tagRepo.save(spicy);
+        hiddenGem = tagRepo.save(hiddenGem);
 
         //Creating 2 Dishes then saving the vendor with dishes
         Dish noodles = new Dish();
@@ -154,8 +158,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         localLegend.setName("Local Legend");
         Tag vegetarian = new Tag();
         vegetarian.setName("Vegetarian");
-        tagList.add(localLegend);
-        tagList.add(vegetarian);
+        localLegend = tagRepo.save(localLegend);
+        vegetarian = tagRepo.save(vegetarian);
 
         Dish samosa = new Dish();
         samosa.setName("Spicy Samosa Chaat");
@@ -262,8 +266,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         sweet.setName("Sweet");
         Tag classic = new Tag();
         classic.setName("Classic");
-        tagList.add(classic);
-        tagList.add(sweet);
+        classic = tagRepo.save(classic);
+        sweet = tagRepo.save(sweet);
 
         Dish eclair = new Dish();
         eclair.setName("Éclair au Chocolat");

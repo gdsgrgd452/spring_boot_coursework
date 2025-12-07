@@ -4,6 +4,7 @@ import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
 import co2123.streetfood.repository.AwardRepository;
 import co2123.streetfood.repository.PhotoRepository;
+import co2123.streetfood.repository.TagRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class AddEditController {
 
     @Autowired
     private PhotoRepository photoRepo;
+
+    @Autowired
+    private TagRepository tagRepo;
 
     @RequestMapping("editVendor")
     public String editVendorForm(@RequestParam Integer id, Model model) {
@@ -99,7 +103,7 @@ public class AddEditController {
 
         model.addAttribute("vendor", foundVendor);
         model.addAttribute("dish", new Dish());
-        model.addAttribute("tags", StreetfoodApplication.tagList);
+        model.addAttribute("tags", tagRepo.findAll());
         return "forms/newDish";
     }
 
@@ -116,7 +120,7 @@ public class AddEditController {
 
         dish.setTags(new ArrayList<>());
         for(Integer tagId : tagIds){
-            dish.getTags().add(StreetfoodApplication.tagList.get(tagId-1));
+            dish.getTags().add(tagRepo.findById(tagId).get());
         }
 
         dish.setReviews(new ArrayList<>());
@@ -255,7 +259,7 @@ public class AddEditController {
 
         model.addAttribute("vendor", foundVendor);
         model.addAttribute("dish", foundDish);
-        model.addAttribute("tags", StreetfoodApplication.tagList);
+        model.addAttribute("tags", tagRepo.findAll()); //Not correct?
         return "forms/editDish";
     }
     @RequestMapping("editedDish")
@@ -290,7 +294,7 @@ public class AddEditController {
         }
 
         for(Integer tagId : tagIds){
-            foundDish.getTags().add(StreetfoodApplication.tagList.get(tagId-1));
+            foundDish.getTags().add(tagRepo.findById(tagId).get());
         }
 
         model.addAttribute("vendor", foundVendor);
