@@ -303,6 +303,7 @@ public class AddEditController {
     @RequestMapping("editReview")
     public String editReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, Model model) {
         Vendor foundVendor = vendorRepo.findById(vendorId).get();
+
         if (foundVendor == null) {
             return "redirect:/admin";
         }
@@ -321,7 +322,7 @@ public class AddEditController {
     @RequestMapping("editedReview")
     public String editedReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, @ModelAttribute Review review, Model model) {
         Review foundReview = reviewRepo.findById(reviewId).get();
-
+        System.out.print(review.getReviewerName());
         if (foundReview == null) {
             return "redirect:/admin";
         }
@@ -329,6 +330,7 @@ public class AddEditController {
         foundReview.setReviewerName(review.getReviewerName());
         foundReview.setComment(review.getComment());
         foundReview.setRating(review.getRating());
+        foundReview = reviewRepo.save(foundReview);
 
         Vendor foundVendor = vendorRepo.findById(vendorId).get();
         if (foundVendor == null) {
