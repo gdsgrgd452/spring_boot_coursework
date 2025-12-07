@@ -12,7 +12,7 @@ public class Vendor {
     private String location;
     private String cuisineType;
 
-    @OneToMany(mappedBy = "vendor")
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     private List<Dish> dishes;
 
     @ManyToOne(cascade = CascadeType.ALL)
