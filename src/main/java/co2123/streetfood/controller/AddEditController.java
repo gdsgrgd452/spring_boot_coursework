@@ -352,12 +352,7 @@ public class AddEditController {
 
     @RequestMapping("editPhoto")
     public String editPhoto(@RequestParam Integer photoId, Model model) {
-        Photo foundPhoto = null;
-        for(Photo p : photoRepo.findAll()){
-            if(p.getId() == photoId){
-                foundPhoto = p;
-            }
-        }
+        Photo foundPhoto = photoRepo.findById(photoId).get();
 
         if (foundPhoto == null) {
             return "redirect:/admin";
@@ -369,12 +364,7 @@ public class AddEditController {
 
     @RequestMapping("editedPhoto")
     public String editedPhoto(@RequestParam Integer photoId, @ModelAttribute Photo photo, Model model) {
-        Photo foundPhoto = null;
-        for(Photo p : photoRepo.findAll()){
-            if(p.getId() == photoId){
-                foundPhoto = p;
-            }
-        }
+        Photo foundPhoto = photoRepo.findById(photoId).get();
 
         if (foundPhoto == null) {
             return "redirect:/admin";
@@ -395,12 +385,7 @@ public class AddEditController {
 
     @RequestMapping("editAward")
     public String editAward(@RequestParam Integer awardId, Model model) {
-        Award foundAward = null;
-        for(Award a : awardRepo.findAll()){
-            if(a.getId() == awardId){
-                foundAward = a;
-            }
-        }
+        Award foundAward = awardRepo.findById(awardId).get();
 
         if (foundAward == null) {
             return "redirect:/admin";
@@ -412,12 +397,7 @@ public class AddEditController {
 
     @RequestMapping("editedAward")
     public String editedAward(@RequestParam Integer awardId, @ModelAttribute Award award, Model model) {
-        Award foundAward = null;
-        for(Award a : awardRepo.findAll()){
-            if(a.getId() == awardId){
-                foundAward = a;
-            }
-        }
+        Award foundAward = awardRepo.findById(awardId).get();
 
         if (foundAward == null) {
             return "redirect:/admin";
