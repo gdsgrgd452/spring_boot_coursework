@@ -22,7 +22,7 @@ public class AdminController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(new VendorValidator());
+        binder.addValidators(new VendorValidator(vendorRepo));
     }
 
     @RequestMapping("/admin")

@@ -10,8 +10,11 @@ import org.springframework.validation.Validator;
 
 public class VendorValidator implements Validator {
 
-    @Autowired //NOT WORKING
-    private VendorRepository vendorRepo;
+    private final VendorRepository vendorRepo;
+
+    public VendorValidator(VendorRepository vendorRep) {
+        this.vendorRepo = vendorRep;
+    }
 
     @Override
     public boolean supports(Class<?> clazz) {
