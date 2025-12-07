@@ -4,6 +4,7 @@ import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
 import co2123.streetfood.repository.AwardRepository;
 import co2123.streetfood.repository.PhotoRepository;
+import co2123.streetfood.repository.ReviewRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class DeleteController {
 
     @Autowired
     private PhotoRepository photoRepo;
+
+    @Autowired
+    private ReviewRepository reviewRepo;
 
     @RequestMapping("/deleteVendor")
     public String deleteVendor(@RequestParam("id") Integer id) {
@@ -58,14 +62,10 @@ public class DeleteController {
 
     @RequestMapping("/deleteReview")
     public String deleteReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId) {
-        Review foundReview = null;
-        for(Review r : StreetfoodApplication.reviewList){
-            if(r.getId() == reviewId){
-                foundReview = r;
-            }
-        }
+        Review foundReview = reviewRepo.findById(reviewId).get();
+
         if(foundReview != null){
-            StreetfoodApplication.reviewList.remove(foundReview);
+            reviewRepo.delete(foundReview);
         }
 
         Vendor foundVendor = vendorRepo.findById(vendorId).get();

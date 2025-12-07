@@ -1,10 +1,7 @@
 package co2123.streetfood;
 
 import co2123.streetfood.model.*;
-import co2123.streetfood.repository.AwardRepository;
-import co2123.streetfood.repository.PhotoRepository;
-import co2123.streetfood.repository.TagRepository;
-import co2123.streetfood.repository.VendorRepository;
+import co2123.streetfood.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,25 +18,19 @@ public class StreetfoodApplication implements CommandLineRunner {
 
     @Autowired
     public AwardRepository awardRepo;
-    //public static List<Award> awardList = new ArrayList<>();
-
-    public static List<Dish> dishList = new ArrayList<>();
 
     @Autowired
     public PhotoRepository photoRepo;
-    //public static List<Photo> photoList = new ArrayList<>();
 
     public static List<Review> reviewList = new ArrayList<>();
+    @Autowired
+    public ReviewRepository reviewRepo;
 
     @Autowired
     public TagRepository tagRepo;
-    public static List<Tag> tagList = new ArrayList<>();
 
     @Autowired
     public VendorRepository vendorRepo;
-    //public static List<Vendor> vendorList = new ArrayList<>();
-
-    //public static List<VendorProfile> vendorprofileList = new ArrayList<>();
 
     public static void main(String[] args) {
         SpringApplication.run(StreetfoodApplication.class, args);
@@ -108,8 +99,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         review2.setReviewDate(LocalDateTime.now());
         review2.setDish(dumplings);
 
-        reviewList.add(review1);
-        reviewList.add(review2);
+        review1 = reviewRepo.save(review1);
+        review2 = reviewRepo.save(review2);
 
         //Creating 2 Photos
         Photo photo1 = new Photo();
@@ -214,9 +205,9 @@ public class StreetfoodApplication implements CommandLineRunner {
         review5.setReviewDate(LocalDateTime.now());
         review5.setDish(toastie);
 
-        reviewList.add(review3);
-        reviewList.add(review4);
-        reviewList.add(review5);
+        review3 = reviewRepo.save(review3);
+        review4 = reviewRepo.save(review4);
+        review5 = reviewRepo.save(review5);
 
         Photo photo3 = new Photo();
         photo3.setUrl("samosa.JPG");
@@ -321,9 +312,9 @@ public class StreetfoodApplication implements CommandLineRunner {
         review8.setReviewDate(LocalDateTime.now());
         review8.setDish(tarteCitron);
 
-        reviewList.add(review6);
-        reviewList.add(review7);
-        reviewList.add(review8);
+        review6 = reviewRepo.save(review6);
+        review7 = reviewRepo.save(review7);
+        review8 = reviewRepo.save(review8);
 
         Photo photo6 = new Photo();
         photo6.setUrl("eclair.jpg");

@@ -2,10 +2,7 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
-import co2123.streetfood.repository.AwardRepository;
-import co2123.streetfood.repository.PhotoRepository;
-import co2123.streetfood.repository.TagRepository;
-import co2123.streetfood.repository.VendorRepository;
+import co2123.streetfood.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +25,9 @@ public class AddEditController {
 
     @Autowired
     private PhotoRepository photoRepo;
+
+    @Autowired
+    private ReviewRepository reviewRepo;
 
     @Autowired
     private TagRepository tagRepo;
@@ -168,7 +168,7 @@ public class AddEditController {
 
         review.setReviewDate(LocalDateTime.now());
         review.setDish(foundDish);
-        StreetfoodApplication.reviewList.add(review);
+        review = reviewRepo.save(review);
 
         if(foundDish.getReviews().isEmpty()){
             foundDish.setReviews(new ArrayList<>());
@@ -307,12 +307,7 @@ public class AddEditController {
             return "redirect:/admin";
         }
 
-        Review foundReview = null;
-        for(Review r : StreetfoodApplication.reviewList){
-            if(r.getId() == reviewId){
-                foundReview = r;
-            }
-        }
+        Review foundReview = reviewRepo.findById(reviewId).get();
 
         if (foundReview == null) {
             return "redirect:/admin";
@@ -325,12 +320,7 @@ public class AddEditController {
 
     @RequestMapping("editedReview")
     public String editedReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, @ModelAttribute Review review, Model model) {
-        Review foundReview = null;
-        for(Review r : StreetfoodApplication.reviewList){
-            if(r.getId() == reviewId){
-                foundReview = r;
-            }
-        }
+        Review foundReview = reviewRepo.findById(reviewId).get();
 
         if (foundReview == null) {
             return "redirect:/admin";
