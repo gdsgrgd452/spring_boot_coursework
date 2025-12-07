@@ -2,6 +2,8 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.AwardRepository;
+import co2123.streetfood.repository.PhotoRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,12 @@ public class AddEditController {
 
     @Autowired
     private VendorRepository vendorRepo;
+
+    @Autowired
+    private AwardRepository awardRepo;
+
+    @Autowired
+    private PhotoRepository photoRepo;
 
     @RequestMapping("editVendor")
     public String editVendorForm(@RequestParam Integer id, Model model) {
@@ -188,7 +196,7 @@ public class AddEditController {
         }
 
         photo.setVendor(foundVendor);
-        StreetfoodApplication.photoList.add(photo);
+        photo = photoRepo.save(photo);
 
         foundVendor.getPhotos().add(photo);
 
@@ -216,7 +224,7 @@ public class AddEditController {
         }
 
         award.setVendor(foundVendor);
-        StreetfoodApplication.awardList.add(award);
+        award = awardRepo.save(award);
 
         foundVendor.getAwards().add(award);
 
@@ -341,7 +349,7 @@ public class AddEditController {
     @RequestMapping("editPhoto")
     public String editPhoto(@RequestParam Integer photoId, Model model) {
         Photo foundPhoto = null;
-        for(Photo p : StreetfoodApplication.photoList){
+        for(Photo p : photoRepo.findAll()){
             if(p.getId() == photoId){
                 foundPhoto = p;
             }
@@ -358,7 +366,7 @@ public class AddEditController {
     @RequestMapping("editedPhoto")
     public String editedPhoto(@RequestParam Integer photoId, @ModelAttribute Photo photo, Model model) {
         Photo foundPhoto = null;
-        for(Photo p : StreetfoodApplication.photoList){
+        for(Photo p : photoRepo.findAll()){
             if(p.getId() == photoId){
                 foundPhoto = p;
             }
@@ -384,7 +392,7 @@ public class AddEditController {
     @RequestMapping("editAward")
     public String editAward(@RequestParam Integer awardId, Model model) {
         Award foundAward = null;
-        for(Award a : StreetfoodApplication.awardList){
+        for(Award a : awardRepo.findAll()){
             if(a.getId() == awardId){
                 foundAward = a;
             }
@@ -401,7 +409,7 @@ public class AddEditController {
     @RequestMapping("editedAward")
     public String editedAward(@RequestParam Integer awardId, @ModelAttribute Award award, Model model) {
         Award foundAward = null;
-        for(Award a : StreetfoodApplication.awardList){
+        for(Award a : awardRepo.findAll()){
             if(a.getId() == awardId){
                 foundAward = a;
             }

@@ -2,6 +2,8 @@ package co2123.streetfood.controller;
 
 import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.AwardRepository;
+import co2123.streetfood.repository.PhotoRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,12 @@ public class DeleteController {
 
     @Autowired
     private VendorRepository vendorRepo;
+
+    @Autowired
+    private AwardRepository awardRepo;
+
+    @Autowired
+    private PhotoRepository photoRepo;
 
     @RequestMapping("/deleteVendor")
     public String deleteVendor(@RequestParam("id") Integer id) {
@@ -78,13 +86,13 @@ public class DeleteController {
     @RequestMapping("/deletePhoto")
     public String deletePhoto(@RequestParam Integer photoId) {
         Photo foundPhoto = null;
-        for(Photo p : StreetfoodApplication.photoList){
+        for(Photo p : photoRepo.findAll()){
             if(p.getId() == photoId){
                 foundPhoto = p;
             }
         }
         if(foundPhoto != null){
-            StreetfoodApplication.photoList.remove(foundPhoto);
+            photoRepo.delete(foundPhoto);
         } else {
             return "redirect:/admin";
         }
@@ -100,13 +108,13 @@ public class DeleteController {
     @RequestMapping("/deleteAward")
     public String deleteAward(@RequestParam Integer awardId) {
         Award foundAward = null;
-        for(Award a : StreetfoodApplication.awardList){
+        for(Award a : awardRepo.findAll()){
             if(a.getId() == awardId){
                 foundAward = a;
             }
         }
         if(foundAward != null){
-            StreetfoodApplication.awardList.remove(foundAward);
+            awardRepo.delete(foundAward);
         } else {
             return "redirect:/admin";
         }
