@@ -1,6 +1,8 @@
 package co2123.streetfood;
 
 import co2123.streetfood.model.*;
+import co2123.streetfood.repository.AwardRepository;
+import co2123.streetfood.repository.PhotoRepository;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,15 +18,22 @@ import java.util.List;
 @SpringBootApplication
 public class StreetfoodApplication implements CommandLineRunner {
 
+    @Autowired
+    public AwardRepository awardRepo;
+    //public static List<Award> awardList = new ArrayList<>();
 
-    public static List<Award> awardList = new ArrayList<>();
     public static List<Dish> dishList = new ArrayList<>();
-    public static List<Photo> photoList = new ArrayList<>();
+
+    @Autowired
+    public PhotoRepository photoRepo;
+    //public static List<Photo> photoList = new ArrayList<>();
+
     public static List<Review> reviewList = new ArrayList<>();
     public static List<Tag> tagList = new ArrayList<>();
-    //public static List<Vendor> vendorList = new ArrayList<>();
+
     @Autowired
     public VendorRepository vendorRepo;
+    //public static List<Vendor> vendorList = new ArrayList<>();
 
     //public static List<VendorProfile> vendorprofileList = new ArrayList<>();
 
@@ -111,8 +120,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         photo2.setDescription("Steaming hot dumplings.");
         photo2.setVendor(vendor);
 
-        photoList.add(photo1);
-        photoList.add(photo2);
+        photo1 = photoRepo.save(photo1);
+        photo2 = photoRepo.save(photo2);
 
         //Creating 2 Awards
         Award award1 = new Award();
@@ -125,8 +134,8 @@ public class StreetfoodApplication implements CommandLineRunner {
         award2.setYear(2023);
         award2.setVendor(vendor);
 
-        awardList.add(award1);
-        awardList.add(award2);
+        award1 = awardRepo.save(award1);
+        award2 = awardRepo.save(award2);
 
         //Creating another vendor to populate the database
         VendorProfile profile2 = new VendorProfile();
@@ -225,16 +234,16 @@ public class StreetfoodApplication implements CommandLineRunner {
         photo5.setDescription("Red Leicester cheese toastie");
         photo5.setVendor(vendor2);
 
-        photoList.add(photo3);
-        photoList.add(photo4);
-        photoList.add(photo5);
+        photo3 = photoRepo.save(photo3);
+        photo4 = photoRepo.save(photo4);
+        photo5 = photoRepo.save(photo5);
 
         Award award3 = new Award();
         award3.setTitle("Leicester Market Favourite");
         award3.setYear(2025);
         award3.setVendor(vendor2);
 
-        awardList.add(award3);
+        award3 = awardRepo.save(award3);
 
         //Another vendor
         VendorProfile profile3 = new VendorProfile();
@@ -330,14 +339,14 @@ public class StreetfoodApplication implements CommandLineRunner {
         photo7.setDescription("Lemon tart with toasted meringue.");
         photo7.setVendor(vendor3);
 
-        photoList.add(photo6);
-        photoList.add(photo7);
+        photo6 = photoRepo.save(photo6);
+        photo7 = photoRepo.save(photo7);
 
         Award award4 = new Award();
         award4.setTitle("Best Dessert Stall");
         award4.setYear(2025);
         award4.setVendor(vendor3);
-        awardList.add(award4);
+        award4 = awardRepo.save(award4);
 
         //Additional code for ArrayLists
         noodles.setReviews(new ArrayList<>(List.of(review1)));
