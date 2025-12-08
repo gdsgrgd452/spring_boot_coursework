@@ -258,7 +258,7 @@ public class AddEditController {
 
         model.addAttribute("vendor", foundVendor);
         model.addAttribute("dish", foundDish);
-        model.addAttribute("tags", tagRepo.findAll()); //Not correct?
+        model.addAttribute("tags", tagRepo.findAll());
         return "forms/editDish";
     }
     @RequestMapping("editedDish")
@@ -296,6 +296,7 @@ public class AddEditController {
             foundDish.getTags().add(tagRepo.findById(tagId).get());
         }
 
+        foundVendor = vendorRepo.save(foundVendor);
         model.addAttribute("vendor", foundVendor);
         return "redirect:/vendor?id=" + vendorid;
     }
@@ -369,6 +370,7 @@ public class AddEditController {
         if (foundVendor == null) {
             return "redirect:/admin";
         }
+        photoRepo.save(foundPhoto);
 
         model.addAttribute("vendor", foundVendor);
         return "redirect:/vendor?id=" + foundVendor.getId();
@@ -401,6 +403,7 @@ public class AddEditController {
         if (foundVendor == null) {
             return "redirect:/admin";
         }
+        awardRepo.save(foundAward);
 
         model.addAttribute("vendor", foundVendor);
         return "redirect:/vendor?id=" + foundVendor.getId();

@@ -10,8 +10,7 @@ public class Tag {
     private int id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "dish_tags") //Change name of dishes_id?
+    @ManyToMany(mappedBy = "tags")
     private List<Dish> dishes;
 
     public int getId() {

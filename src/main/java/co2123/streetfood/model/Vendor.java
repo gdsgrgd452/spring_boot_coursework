@@ -12,16 +12,16 @@ public class Vendor {
     private String location;
     private String cuisineType;
 
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dish> dishes;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private VendorProfile profile;
 
-    @OneToMany(mappedBy = "vendor")
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "vendor")
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Award> awards;
 
     public int getId() {

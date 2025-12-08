@@ -16,10 +16,10 @@ public class Dish {
     @ManyToOne
     private Vendor vendor;
 
-    @OneToMany(mappedBy = "dish")
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @ManyToMany(mappedBy = "dishes")
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
 
     public int getId() {

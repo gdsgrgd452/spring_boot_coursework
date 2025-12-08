@@ -33,11 +33,8 @@ public class VendorValidator implements Validator {
             errors.rejectValue("cuisineType", "", "Cuisine type must be 50 characters or fewer.");
         }
 
-        for(Vendor a : vendorRepo.findAll()){
-            if(a.getName().equals(vendor.getName())){
-                errors.rejectValue("name", "", "Vendor name already exists.");
-            }
+        if (vendorRepo.findByName(vendor.getName()) != null) {
+            errors.rejectValue("name", "", "Vendor name already exists.");
         }
-
     }
 }

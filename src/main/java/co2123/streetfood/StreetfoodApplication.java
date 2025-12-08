@@ -22,7 +22,6 @@ public class StreetfoodApplication implements CommandLineRunner {
     @Autowired
     public PhotoRepository photoRepo;
 
-    public static List<Review> reviewList = new ArrayList<>();
     @Autowired
     public ReviewRepository reviewRepo;
 
@@ -335,21 +334,5 @@ public class StreetfoodApplication implements CommandLineRunner {
         award4.setVendor(vendor3);
         award4 = awardRepo.save(award4);
 
-        //Additional code for ArrayLists
-        noodles.setReviews(new ArrayList<>(List.of(review1)));
-        dumplings.setReviews(new ArrayList<>(List.of(review2)));
-        samosa.setReviews(new ArrayList<>(List.of(review3)));
-        porkPie.setReviews(new ArrayList<>(List.of(review4)));
-        toastie.setReviews(new ArrayList<>(List.of(review5)));
-        eclair.setReviews(new ArrayList<>(List.of(review6)));
-        tarteCitron.setReviews(new ArrayList<>(Arrays.asList(review7, review8)));
-
-        vendor.setPhotos(new ArrayList<>(Arrays.asList(photo1,photo2)));
-        vendor2.setPhotos(new ArrayList<>(Arrays.asList(photo3,photo4,photo5)));
-        vendor3.setPhotos(new ArrayList<>(Arrays.asList(photo6,photo7)));
-
-        vendor.setAwards(new ArrayList<>(Arrays.asList(award1,award2)));
-        vendor2.setAwards(new ArrayList<>(List.of(award3)));
-        vendor3.setAwards(new ArrayList<>(List.of(award4)));
     }
 }

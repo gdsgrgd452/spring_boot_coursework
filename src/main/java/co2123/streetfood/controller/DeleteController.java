@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+
 @Controller
 public class DeleteController {
 
@@ -30,6 +32,8 @@ public class DeleteController {
     public String deleteVendor(@RequestParam("id") Integer id) {
         Vendor foundVendor = vendorRepo.findById(id).get();
         if(foundVendor != null){
+            photoRepo.deleteAll(foundVendor.getPhotos());
+            foundVendor.setPhotos(new ArrayList<>());
             vendorRepo.delete(foundVendor);
         }
         return "redirect:/admin";
@@ -55,7 +59,7 @@ public class DeleteController {
         }
 
         foundVendor.getDishes().remove(foundDish);
-        foundVendor = vendorRepo.save(foundVendor);
+        vendorRepo.save(foundVendor);
 
         return "redirect:/vendor?id=" + vendorid;
     }
@@ -85,12 +89,8 @@ public class DeleteController {
 
     @RequestMapping("/deletePhoto")
     public String deletePhoto(@RequestParam Integer photoId) {
-        Photo foundPhoto = null;
-        for(Photo p : photoRepo.findAll()){
-            if(p.getId() == photoId){
-                foundPhoto = p;
-            }
-        }
+        Photo foundPhoto = photoRepo.findById(photoId).get();
+
         if(foundPhoto != null){
             photoRepo.delete(foundPhoto);
         } else {
@@ -107,12 +107,7 @@ public class DeleteController {
 
     @RequestMapping("/deleteAward")
     public String deleteAward(@RequestParam Integer awardId) {
-        Award foundAward = null;
-        for(Award a : awardRepo.findAll()){
-            if(a.getId() == awardId){
-                foundAward = a;
-            }
-        }
+        Award foundAward = awardRepo.findById(awardId).get();
         if(foundAward != null){
             awardRepo.delete(foundAward);
         } else {

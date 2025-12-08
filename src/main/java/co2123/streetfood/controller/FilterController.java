@@ -19,19 +19,17 @@ public class FilterController {
     @Autowired
     private VendorRepository vendorRepo;
 
-    public List<Vendor> method1(String search){
-        List<Vendor> vendors = new ArrayList<Vendor>();
-//        for(Vendor a : StreetfoodApplication.vendorList){
-//            if(a.getName().contains(search)){
-//                vendors.add(a);
-//            }
-//        }
-        return vendors;
+    public List<Vendor> method1(@RequestParam String name, Model model) {
+        return List.of(vendorRepo.findByNameContaining(name));
+    }
+
+    public List<Vendor> method2(@RequestParam String name, Model model) {
+        return vendorRepo.findByDishesNameContaining(name);
     }
 
     @GetMapping("/search1")
     public String search1(@RequestParam String vendor, Model model) {
-        List<Vendor> list = method1(vendor);
+        List<Vendor> list = method1(vendor, model);
         if(list.isEmpty()){
             model.addAttribute("vendors", vendorRepo.findAll());
         } else {
@@ -40,22 +38,10 @@ public class FilterController {
         return "vendors";
     }
 
-    public List<Vendor> method2(String search){
-        List<Vendor> vendors = new ArrayList<>();
-        for(Vendor a : vendorRepo.findAll()){
-            for(Dish d : a.getDishes()){
-                if(d.getName().contains(search) && !vendors.contains(a)){
-                    vendors.add(a);
-
-                }
-            }
-        }
-        return vendors;
-    }
 
     @GetMapping("/search2")
     public String search2(@RequestParam String dish, Model model) {
-        List<Vendor> list = method2(dish);
+        List<Vendor> list = method2(dish, model);
         if(list.isEmpty()){
             model.addAttribute("vendors", vendorRepo.findAll());
         } else {
