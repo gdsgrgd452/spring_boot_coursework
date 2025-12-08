@@ -1,6 +1,5 @@
 package co2123.streetfood.controller;
 
-import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

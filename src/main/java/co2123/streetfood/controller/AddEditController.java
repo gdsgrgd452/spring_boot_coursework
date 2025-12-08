@@ -1,6 +1,5 @@
 package co2123.streetfood.controller;
 
-import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
 import co2123.streetfood.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,46 +12,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AddEditController {
 
     @Autowired
     private VendorRepository vendorRepo;
-
     @Autowired
     private AwardRepository awardRepo;
-
     @Autowired
     private PhotoRepository photoRepo;
-
     @Autowired
     private ReviewRepository reviewRepo;
-
     @Autowired
     private TagRepository tagRepo;
 
     @RequestMapping("editVendor")
     public String editVendorForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
 
-        if(foundVendor == null) {
+        if(foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "forms/editVendor";
     }
 
 
     @RequestMapping("editedVendor")
     public String submittedEditForm(@RequestParam Integer id, @ModelAttribute Vendor vendor, Model model) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
 
-        foundVendor.setName(vendor.getName());
-        foundVendor.setLocation(vendor.getLocation());
-        foundVendor.setCuisineType(vendor.getCuisineType());
+        if(foundVendor.isEmpty()) {
+            return "redirect:/admin";
+        }
 
-        model.addAttribute("vendor", foundVendor);
+        foundVendor.get().setName(vendor.getName());
+        foundVendor.get().setLocation(vendor.getLocation());
+        foundVendor.get().setCuisineType(vendor.getCuisineType());
+
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + id;
     }
 
@@ -60,12 +60,13 @@ public class AddEditController {
 
     @RequestMapping("editVendorProfile")
     public String editVendorProfileForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
+
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        VendorProfile profile = foundVendor.getProfile();
+        VendorProfile profile = foundVendor.get().getProfile();
         model.addAttribute("profile", profile);
         model.addAttribute("vendor", id);
         return "forms/editVendorProfile";
@@ -73,22 +74,19 @@ public class AddEditController {
 
     @RequestMapping("editedVendorProfile")
     public String submittedProfileEditForm(@RequestParam Integer id, @ModelAttribute VendorProfile profile, Model model) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        if(foundVendor.getProfile() == null){
-            foundVendor.setProfile(profile);
-            //StreetfoodApplication.vendorprofileList.add(profile);
+        if(foundVendor.get().getProfile() == null){
+            foundVendor.get().setProfile(profile);
         } else {
-            //StreetfoodApplication.vendorprofileList.remove(foundVendor.getProfile());
-            //StreetfoodApplication.vendorprofileList.add(profile);
-            foundVendor.getProfile().setBio(profile.getBio());
-            foundVendor.getProfile().setSocialMediaHandle(profile.getSocialMediaHandle());
-            foundVendor.getProfile().setWebsite(profile.getWebsite());
+            foundVendor.get().getProfile().setBio(profile.getBio());
+            foundVendor.get().getProfile().setSocialMediaHandle(profile.getSocialMediaHandle());
+            foundVendor.get().getProfile().setWebsite(profile.getWebsite());
         }
-
+        vendorRepo.save(foundVendor.get());
         model.addAttribute("vendor", foundVendor);
         return "redirect:/vendor?id=" + id;
     }
@@ -96,12 +94,12 @@ public class AddEditController {
 
     @RequestMapping("newDish")
     public String newDishForm(@RequestParam Integer id, Model model) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         model.addAttribute("dish", new Dish());
         model.addAttribute("tags", tagRepo.findAll());
         return "forms/newDish";
@@ -109,13 +107,13 @@ public class AddEditController {
 
     @RequestMapping("addDish")
     public String addDish(@RequestParam Integer vendorid, @RequestParam List<Integer> tagIds, @ModelAttribute Dish dish, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        if(foundVendor.getDishes().isEmpty()){
-            foundVendor.setDishes(new ArrayList<>());
+        if(foundVendor.get().getDishes().isEmpty()){
+            foundVendor.get().setDishes(new ArrayList<>());
         }
 
         dish.setTags(new ArrayList<>());
@@ -124,11 +122,11 @@ public class AddEditController {
         }
 
         dish.setReviews(new ArrayList<>());
-        dish.setVendor(foundVendor);
-        foundVendor.getDishes().add(dish);
-        vendorRepo.save(foundVendor);
+        dish.setVendor(foundVendor.get());
+        foundVendor.get().getDishes().add(dish);
+        vendorRepo.save(foundVendor.get());
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + vendorid;
     }
 
@@ -136,12 +134,12 @@ public class AddEditController {
 
     @RequestMapping("newReview")
     public String newReview(@RequestParam Integer vendorid, @RequestParam Integer dishid, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         model.addAttribute("dishid",dishid);
         model.addAttribute("review", new Review());
         return "forms/newReview";
@@ -149,13 +147,13 @@ public class AddEditController {
 
     @RequestMapping("addReview")
     public String addReview(@RequestParam Integer vendorid, @RequestParam Integer dishid, @ModelAttribute Review review, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
         Dish foundDish = null;
-        for (Dish dish : foundVendor.getDishes()) {
+        for (Dish dish : foundVendor.get().getDishes()) {
             if (dish.getId() == dishid) {
                 foundDish = dish;
                 break;
@@ -181,57 +179,58 @@ public class AddEditController {
 
     @RequestMapping("newPhoto")
     public String newPhoto(@RequestParam Integer vendorid, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         model.addAttribute("photo", new Photo());
         return "forms/newPhoto";
     }
 
     @RequestMapping("addPhoto")
     public String addPhoto(@RequestParam Integer vendorid, @ModelAttribute Photo photo, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        photo.setVendor(foundVendor);
+        photo.setVendor(foundVendor.get());
         photo = photoRepo.save(photo);
 
-        foundVendor.getPhotos().add(photo);
+        foundVendor.get().getPhotos().add(photo);
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + vendorid;
     }
 
     @RequestMapping("newAward")
     public String newAward(@RequestParam Integer vendorid, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         model.addAttribute("award", new Award());
         return "forms/newAward";
     }
 
     @RequestMapping("addAward")
     public String addAward(@RequestParam Integer vendorid, @ModelAttribute Award award, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        award.setVendor(foundVendor);
+        award.setVendor(foundVendor.get());
         award = awardRepo.save(award);
 
-        foundVendor.getAwards().add(award);
+        foundVendor.get().getAwards().add(award);
+        vendorRepo.save(foundVendor.get());
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + vendorid;
     }
 
@@ -239,13 +238,13 @@ public class AddEditController {
 
     @RequestMapping("editDish")
     public String editDishForm(@RequestParam Integer vendorid, @RequestParam Integer dishid, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
         Dish foundDish = null;
-        for (Dish dish : foundVendor.getDishes()) {
+        for (Dish dish : foundVendor.get().getDishes()) {
             if (dish.getId() == dishid) {
                 foundDish = dish;
                 break;
@@ -256,20 +255,20 @@ public class AddEditController {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         model.addAttribute("dish", foundDish);
         model.addAttribute("tags", tagRepo.findAll());
         return "forms/editDish";
     }
     @RequestMapping("editedDish")
     public String submittedEditDishForm(@RequestParam Integer vendorid, @RequestParam Integer dishid, @RequestParam(required = false) List<Integer> tagIds, @ModelAttribute Dish dish, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
         Dish foundDish = null;
-        for (Dish d : foundVendor.getDishes()) {
+        for (Dish d : foundVendor.get().getDishes()) {
             if (d.getId() == dishid) {
                 foundDish = d;
                 break;
@@ -293,120 +292,122 @@ public class AddEditController {
         }
 
         for(Integer tagId : tagIds){
-            foundDish.getTags().add(tagRepo.findById(tagId).get());
+            Optional<Tag> foundTag = tagRepo.findById(tagId);
+            if (foundTag.isPresent()) {
+                foundDish.getTags().add(foundTag.get());
+            }
         }
 
-        foundVendor = vendorRepo.save(foundVendor);
-        model.addAttribute("vendor", foundVendor);
+        vendorRepo.save(foundVendor.get());
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + vendorid;
     }
 
     @RequestMapping("editReview")
     public String editReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, Model model) {
-        Vendor foundVendor = vendorRepo.findById(vendorId).get();
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorId);
 
-        if (foundVendor == null) {
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        Review foundReview = reviewRepo.findById(reviewId).get();
+        Optional<Review> foundReview = reviewRepo.findById(reviewId);
 
-        if (foundReview == null) {
+        if (foundReview.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
-        model.addAttribute("review", foundReview);
+        model.addAttribute("vendor", foundVendor.get());
+        model.addAttribute("review", foundReview.get());
         return "forms/editReview";
     }
 
     @RequestMapping("editedReview")
     public String editedReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId, @ModelAttribute Review review, Model model) {
-        Review foundReview = reviewRepo.findById(reviewId).get();
-        System.out.print(review.getReviewerName());
-        if (foundReview == null) {
+        Optional<Review> foundReview = reviewRepo.findById(reviewId);
+
+        if (foundReview.isEmpty()) {
             return "redirect:/admin";
         }
 
-        foundReview.setReviewerName(review.getReviewerName());
-        foundReview.setComment(review.getComment());
-        foundReview.setRating(review.getRating());
-        foundReview = reviewRepo.save(foundReview);
+        foundReview.get().setReviewerName(review.getReviewerName());
+        foundReview.get().setComment(review.getComment());
+        foundReview.get().setRating(review.getRating());
+        reviewRepo.save(foundReview.get());
 
-        Vendor foundVendor = vendorRepo.findById(vendorId).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorId);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + vendorId;
     }
 
     @RequestMapping("editPhoto")
     public String editPhoto(@RequestParam Integer photoId, Model model) {
-        Photo foundPhoto = photoRepo.findById(photoId).get();
+        Optional<Photo> foundPhoto = photoRepo.findById(photoId);
 
-        if (foundPhoto == null) {
+        if (foundPhoto.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("photo", foundPhoto);
+        model.addAttribute("photo", foundPhoto.get());
         return "forms/editPhoto";
     }
 
     @RequestMapping("editedPhoto")
     public String editedPhoto(@RequestParam Integer photoId, @ModelAttribute Photo photo, Model model) {
-        Photo foundPhoto = photoRepo.findById(photoId).get();
+        Optional<Photo> foundPhoto = photoRepo.findById(photoId);
 
-        if (foundPhoto == null) {
+        if (foundPhoto.isEmpty()) {
             return "redirect:/admin";
         }
 
-        foundPhoto.setDescription(photo.getDescription());
-        foundPhoto.setUrl(photo.getUrl());
+        foundPhoto.get().setDescription(photo.getDescription());
+        foundPhoto.get().setUrl(photo.getUrl());
 
 
-        Vendor foundVendor = vendorRepo.findById(foundPhoto.getVendor().getId()).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(foundPhoto.get().getVendor().getId());
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
-        photoRepo.save(foundPhoto);
 
-        model.addAttribute("vendor", foundVendor);
-        return "redirect:/vendor?id=" + foundVendor.getId();
+        model.addAttribute("vendor", foundVendor.get());
+        return "redirect:/vendor?id=" + foundVendor.get().getId();
     }
 
     @RequestMapping("editAward")
     public String editAward(@RequestParam Integer awardId, Model model) {
-        Award foundAward = awardRepo.findById(awardId).get();
+        Optional<Award> foundAward = awardRepo.findById(awardId);
 
-        if (foundAward == null) {
+        if (foundAward.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("award", foundAward);
+        model.addAttribute("award", foundAward.get());
         return "forms/editAward";
     }
 
     @RequestMapping("editedAward")
     public String editedAward(@RequestParam Integer awardId, @ModelAttribute Award award, Model model) {
-        Award foundAward = awardRepo.findById(awardId).get();
+        Optional<Award> foundAward = awardRepo.findById(awardId);
 
-        if (foundAward == null) {
+        if (foundAward.isEmpty()) {
             return "redirect:/admin";
         }
 
-        foundAward.setTitle(award.getTitle());
-        foundAward.setYear(award.getYear());
+        foundAward.get().setTitle(award.getTitle());
+        foundAward.get().setYear(award.getYear());
 
-        Vendor foundVendor = vendorRepo.findById(foundAward.getVendor().getId()).get();
-        if (foundVendor == null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(foundAward.get().getVendor().getId());
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
-        awardRepo.save(foundAward);
+        awardRepo.save(foundAward.get());
 
-        model.addAttribute("vendor", foundVendor);
-        return "redirect:/vendor?id=" + foundVendor.getId();
+        model.addAttribute("vendor", foundVendor.get());
+        return "redirect:/vendor?id=" + foundVendor.get().getId();
     }
 
 }

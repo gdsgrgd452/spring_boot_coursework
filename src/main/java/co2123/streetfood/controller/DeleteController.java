@@ -1,6 +1,5 @@
 package co2123.streetfood.controller;
 
-import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.*;
 import co2123.streetfood.repository.AwardRepository;
 import co2123.streetfood.repository.PhotoRepository;
@@ -11,43 +10,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class DeleteController {
 
     @Autowired
     private VendorRepository vendorRepo;
-
     @Autowired
     private AwardRepository awardRepo;
-
     @Autowired
     private PhotoRepository photoRepo;
-
     @Autowired
     private ReviewRepository reviewRepo;
 
     @RequestMapping("/deleteVendor")
     public String deleteVendor(@RequestParam("id") Integer id) {
-        Vendor foundVendor = vendorRepo.findById(id).get();
-        if(foundVendor != null){
-            photoRepo.deleteAll(foundVendor.getPhotos());
-            foundVendor.setPhotos(new ArrayList<>());
-            vendorRepo.delete(foundVendor);
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
+        if(foundVendor.isPresent()) {
+            vendorRepo.deleteById(id);
         }
         return "redirect:/admin";
     }
 
     @RequestMapping("/deleteDish")
     public String deleteDish(@RequestParam Integer vendorid, @RequestParam Integer dishid) {
-        Vendor foundVendor = vendorRepo.findById(vendorid).get();
-        if (foundVendor==null) {
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
+        if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
         Dish foundDish = null;
-        for (Dish d : foundVendor.getDishes()) {
+        for (Dish d : foundVendor.get().getDishes()) {
             if (d.getId() == dishid) {
                 foundDish = d;
                 break;
@@ -58,28 +52,29 @@ public class DeleteController {
             return "redirect:/admin";
         }
 
-        foundVendor.getDishes().remove(foundDish);
-        vendorRepo.save(foundVendor);
+        foundVendor.get().getDishes().remove(foundDish);
+        vendorRepo.save(foundVendor.get());
 
         return "redirect:/vendor?id=" + vendorid;
     }
 
     @RequestMapping("/deleteReview")
     public String deleteReview(@RequestParam Integer vendorId, @RequestParam Integer reviewId) {
-        Review foundReview = reviewRepo.findById(reviewId).get();
-
-        if(foundReview != null){
-            reviewRepo.delete(foundReview);
-        }
-
-        Vendor foundVendor = vendorRepo.findById(vendorId).get();
-        if(foundVendor == null){
+        Optional<Review> foundReview = reviewRepo.findById(reviewId);
+        if(foundReview.isPresent()){
+            reviewRepo.deleteById(reviewId);
+        } else {
             return "redirect:/admin";
         }
 
-        for(Dish d : foundVendor.getDishes()){
-            if(d.getReviews().contains(foundReview)){
-                d.getReviews().remove(foundReview);
+        Optional<Vendor> foundVendor = vendorRepo.findById(vendorId);
+        if(foundVendor.isEmpty()){
+            return "redirect:/admin";
+        }
+
+        for(Dish d : foundVendor.get().getDishes()){
+            if(d.getReviews().contains(foundReview.get())){
+                d.getReviews().remove(foundReview.get());
                 break;
             }
         }
@@ -89,37 +84,37 @@ public class DeleteController {
 
     @RequestMapping("/deletePhoto")
     public String deletePhoto(@RequestParam Integer photoId) {
-        Photo foundPhoto = photoRepo.findById(photoId).get();
+        Optional<Photo> foundPhoto = photoRepo.findById(photoId);
 
-        if(foundPhoto != null){
-            photoRepo.delete(foundPhoto);
+        if(foundPhoto.isPresent()){
+            photoRepo.delete(foundPhoto.get());
         } else {
             return "redirect:/admin";
         }
 
-        Vendor foundVendor = vendorRepo.findById(foundPhoto.getVendor().getId()).get();
-        if(foundVendor == null){
+        Optional<Vendor> foundVendor = vendorRepo.findById(foundPhoto.get().getVendor().getId());
+        if(foundVendor.isEmpty()){
             return "redirect:/admin";
         }
-        foundVendor.getPhotos().remove(foundPhoto);
-        return "redirect:/vendor?id=" + foundVendor.getId();
+        foundVendor.get().getPhotos().remove(foundPhoto.get());
+        return "redirect:/vendor?id=" + foundVendor.get().getId();
     }
 
     @RequestMapping("/deleteAward")
     public String deleteAward(@RequestParam Integer awardId) {
-        Award foundAward = awardRepo.findById(awardId).get();
-        if(foundAward != null){
-            awardRepo.delete(foundAward);
+        Optional<Award> foundAward = awardRepo.findById(awardId);
+        if(foundAward.isPresent()){
+            awardRepo.deleteById(awardId);
         } else {
             return "redirect:/admin";
         }
 
-        Vendor foundVendor = vendorRepo.findById(foundAward.getVendor().getId()).get();
-        if(foundVendor == null){
+        Optional<Vendor> foundVendor = vendorRepo.findById(foundAward.get().getVendor().getId());
+        if(foundVendor.isEmpty()){
             return "redirect:/admin";
         }
-        foundVendor.getAwards().remove(foundAward);
-        return "redirect:/vendor?id=" + foundVendor.getId();
+        foundVendor.get().getAwards().remove(foundAward.get());
+        return "redirect:/vendor?id=" + foundVendor.get().getId();
     }
 
 }

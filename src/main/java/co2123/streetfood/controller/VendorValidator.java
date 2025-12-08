@@ -1,9 +1,8 @@
 package co2123.streetfood.controller;
 
-import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.Vendor;
 import co2123.streetfood.repository.VendorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -17,12 +16,12 @@ public class VendorValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(@NonNull Class<?> clazz) {
         return Vendor.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NonNull Object target, @NonNull Errors errors) {
         Vendor vendor = (Vendor) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "", "Your vendor needs a name!");

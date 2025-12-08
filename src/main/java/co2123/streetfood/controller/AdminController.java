@@ -1,6 +1,5 @@
 package co2123.streetfood.controller;
 
-import co2123.streetfood.StreetfoodApplication;
 import co2123.streetfood.model.Vendor;
 import co2123.streetfood.repository.VendorRepository;
 import jakarta.validation.Valid;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 public class AdminController {
@@ -44,7 +45,6 @@ public class AdminController {
         if (result.hasErrors()) {
             return "forms/newVendor";
         }
-        //System.out.println(StreetfoodApplication.vendorList.size()+1); ?????
         vendorRepo.save(vendor);
         return "redirect:/admin";
     }
@@ -52,13 +52,13 @@ public class AdminController {
     @RequestMapping("/vendor")
     public String listVendor(@RequestParam Integer id, Model model) {
 
-        Vendor foundVendor = vendorRepo.findById(id).get();;
+        Optional<Vendor> foundVendor = vendorRepo.findById(id);
 
-        if(foundVendor == null) {
+        if(foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "vendorSummary";
     }
 
