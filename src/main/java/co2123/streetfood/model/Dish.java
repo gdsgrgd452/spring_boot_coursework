@@ -14,6 +14,7 @@ public class Dish {
     private double price;
 
     @ManyToOne
+    @JoinColumn
     private Vendor vendor;
 
     @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)

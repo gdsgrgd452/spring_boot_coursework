@@ -16,6 +16,7 @@ public class Vendor {
     private List<Dish> dishes;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private VendorProfile profile;
 
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)

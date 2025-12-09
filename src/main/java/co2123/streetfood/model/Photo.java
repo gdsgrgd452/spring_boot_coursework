@@ -10,6 +10,7 @@ public class Photo {
     private String description;
 
     @ManyToOne
+    @JoinColumn
     private Vendor vendor;
 
     public int getId() {
