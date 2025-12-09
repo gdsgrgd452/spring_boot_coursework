@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -67,6 +68,7 @@ public class AddEditController {
         }
 
         VendorProfile profile = foundVendor.get().getProfile();
+
         model.addAttribute("profile", profile);
         model.addAttribute("vendor", id);
         return "forms/editVendorProfile";
@@ -87,7 +89,7 @@ public class AddEditController {
             foundVendor.get().getProfile().setWebsite(profile.getWebsite());
         }
         vendorRepo.save(foundVendor.get());
-        model.addAttribute("vendor", foundVendor);
+        model.addAttribute("vendor", foundVendor.get());
         return "redirect:/vendor?id=" + id;
     }
 
@@ -106,20 +108,21 @@ public class AddEditController {
     }
 
     @RequestMapping("addDish")
-    public String addDish(@RequestParam Integer vendorid, @RequestParam List<Integer> tagIds, @ModelAttribute Dish dish, Model model) {
+    public String addDish(@RequestParam Integer vendorid, @RequestParam(required = false) List<Integer> tagIds , @ModelAttribute Dish dish, Model model) {
         Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
         if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
 
-        if(foundVendor.get().getDishes().isEmpty()){
-            foundVendor.get().setDishes(new ArrayList<>());
+//        if(foundVendor.get().getDishes().isEmpty()){
+//            foundVendor.get().setDishes(new ArrayList<>());
+//        }
+        if(tagIds != null) {
+            List<Tag> tags = (List<Tag>) tagRepo.findAllById(tagIds);
+            dish.setTags(tags);
         }
 
-        dish.setTags(new ArrayList<>());
-        for(Integer tagId : tagIds){
-            dish.getTags().add(tagRepo.findById(tagId).get());
-        }
+
 
         dish.setReviews(new ArrayList<>());
         dish.setVendor(foundVendor.get());
@@ -222,6 +225,12 @@ public class AddEditController {
         Optional<Vendor> foundVendor = vendorRepo.findById(vendorid);
         if (foundVendor.isEmpty()) {
             return "redirect:/admin";
+        }
+
+        for (Award a : awardRepo.findAll()) {
+            if (a.getYear() == award.getYear() && Objects.equals(a.getTitle(), award.getTitle())) {
+                return "redirect:/vendor?id=" + vendorid;
+            }
         }
 
         award.setVendor(foundVendor.get());
@@ -367,6 +376,7 @@ public class AddEditController {
         foundPhoto.get().setDescription(photo.getDescription());
         foundPhoto.get().setUrl(photo.getUrl());
 
+        photoRepo.save(foundPhoto.get());
 
         Optional<Vendor> foundVendor = vendorRepo.findById(foundPhoto.get().getVendor().getId());
         if (foundVendor.isEmpty()) {
@@ -397,13 +407,21 @@ public class AddEditController {
             return "redirect:/admin";
         }
 
-        foundAward.get().setTitle(award.getTitle());
-        foundAward.get().setYear(award.getYear());
-
         Optional<Vendor> foundVendor = vendorRepo.findById(foundAward.get().getVendor().getId());
         if (foundVendor.isEmpty()) {
             return "redirect:/admin";
         }
+
+        for (Award a : awardRepo.findAll()) {
+            if (a.getYear() == award.getYear() && Objects.equals(a.getTitle(), award.getTitle())) {
+                return "redirect:/vendor?id=" + foundVendor.get().getId();
+            }
+        }
+
+        foundAward.get().setTitle(award.getTitle());
+        foundAward.get().setYear(award.getYear());
+
+
         awardRepo.save(foundAward.get());
 
         model.addAttribute("vendor", foundVendor.get());

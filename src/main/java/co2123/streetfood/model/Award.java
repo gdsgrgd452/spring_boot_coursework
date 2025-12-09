@@ -9,7 +9,8 @@ public class Award {
     private String title;
     private int year;
 
-    @ManyToOne //LAZY, JOIN COLUMN??
+    @ManyToOne
+    @JoinColumn
     private Vendor vendor;
 
     public int getId() {

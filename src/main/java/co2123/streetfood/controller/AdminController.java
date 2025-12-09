@@ -1,6 +1,7 @@
 package co2123.streetfood.controller;
 
 import co2123.streetfood.model.Vendor;
+import co2123.streetfood.model.VendorProfile;
 import co2123.streetfood.repository.VendorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class AdminController {
         if (result.hasErrors()) {
             return "forms/newVendor";
         }
+        vendor.setProfile(new VendorProfile());
+
         vendorRepo.save(vendor);
         return "redirect:/admin";
     }

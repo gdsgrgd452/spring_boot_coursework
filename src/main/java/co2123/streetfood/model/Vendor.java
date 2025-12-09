@@ -1,5 +1,6 @@
 package co2123.streetfood.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,13 +16,14 @@ public class Vendor {
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dish> dishes;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private VendorProfile profile;
 
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Photo> photos;
 
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.REMOVE)
     private List<Award> awards;
 
     public int getId() {

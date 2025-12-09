@@ -14,12 +14,14 @@ public class Dish {
     private double price;
 
     @ManyToOne
+    @JoinColumn
     private Vendor vendor;
 
-    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable
     private List<Tag> tags;
 
     public int getId() {

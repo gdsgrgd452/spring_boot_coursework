@@ -14,6 +14,7 @@ public class Review {
     private LocalDateTime reviewDate;
 
     @ManyToOne
+    @JoinColumn
     private Dish dish;
 
     public int getId() {

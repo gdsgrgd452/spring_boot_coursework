@@ -13,7 +13,7 @@
     <form:input path="bio" value="${profile.bio}"/>
     <form:errors path="bio"/><br/>
 
-    Location:
+    Social:
     <form:input path="socialMediaHandle" value="${profile.socialMediaHandle}"/>
     <form:errors path="socialMediaHandle"/><br/>
 
